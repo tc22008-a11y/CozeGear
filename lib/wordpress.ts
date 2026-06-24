@@ -298,7 +298,7 @@ async function graphqlRequest<T>(query: string, variables?: Record<string, unkno
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query, variables }),
-      next: { revalidate: 300 },
+      cache: "force-cache",
     });
 
     if (!response.ok) {
@@ -329,7 +329,7 @@ async function storeApiRequest(params: Record<string, string | number>): Promise
       url.searchParams.set(key, String(value));
     });
 
-    const response = await fetch(url, { next: { revalidate: 300 } });
+    const response = await fetch(url, { cache: "force-cache" });
 
     if (!response.ok) {
       throw new Error(`WooCommerce Store API request failed: ${response.status}`);

@@ -19,7 +19,7 @@ Thumbs.db
 *.swo
 
 # 构建产物
-out/
+# out/
 build/
 # OpenNext
 .open-next

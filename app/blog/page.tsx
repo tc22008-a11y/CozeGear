@@ -19,7 +19,7 @@ export default async function BlogPage() {
         <div className="section-shell grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-end">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">Blog</p>
-            <h1 className="mt-3 text-4xl font-semibold leading-tight md:text-6xl">Garment care guides</h1>
+            <h1 className="mt-3 text-4xl font-semibold leading-tight md:text-5xl">Garment care guides</h1>
           </div>
           <p className="max-w-3xl text-lg leading-8 text-[var(--muted)]">
             WordPress articles for automatic ironing machines, garment care and product education.

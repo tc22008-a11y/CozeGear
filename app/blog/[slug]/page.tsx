@@ -50,7 +50,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               <ArrowLeft size={17} /> Back to blog
             </Link>
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">WordPress article</p>
-            <h1 className="mt-4 text-4xl font-semibold leading-tight md:text-6xl">{post.title}</h1>
+            <h1 className="mt-4 text-4xl font-semibold leading-tight md:text-5xl">{post.title}</h1>
             <div className="mt-6 flex flex-wrap gap-4 text-sm font-medium text-[var(--muted)]">
               <span className="inline-flex items-center gap-2"><CalendarDays size={17} /> {post.date ? new Date(post.date).toLocaleDateString("en-US") : "Post"}</span>
               <span className="inline-flex items-center gap-2"><UserRound size={17} /> {post.author?.node?.name || "CozeGear"}</span>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, SlidersHorizontal } from "lucide-react";
 import { ProductCard } from "@/components/product-card";
@@ -12,18 +13,41 @@ export const metadata: Metadata = {
 
 export default async function ProductsPage() {
   const products = await getProducts(24);
+  const collectionImage =
+    "https://jianx144.sg-host.com/wp-content/uploads/2026/05/O1CN01IOjP7C2EukRvuUpAi_2220536698805-0-cib.jpg";
 
   return (
     <SiteShell>
-      <section className="bg-white py-16">
-        <div className="section-shell grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-end">
+      <section className="bg-white py-12 lg:py-14">
+        <div className="section-shell grid gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:items-end">
           <div>
+            <nav className="mb-5 flex items-center gap-2 text-sm font-semibold text-[var(--muted)]" aria-label="Breadcrumb">
+              <Link href="/" className="hover:text-[var(--accent)]">Home</Link>
+              <span aria-hidden="true">/</span>
+              <span className="text-[var(--foreground)]">Products</span>
+            </nav>
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">Products</p>
-            <h1 className="mt-3 text-4xl font-semibold leading-tight md:text-6xl">Automatic ironing machines</h1>
+            <h1 className="mt-3 text-4xl font-semibold leading-tight md:text-5xl">Automatic ironing machines</h1>
           </div>
           <p className="max-w-3xl text-lg leading-8 text-[var(--muted)]">
             Browse WooCommerce products in a faster Next.js storefront. Product names, prices and images are loaded from WordPress.
           </p>
+        </div>
+      </section>
+
+      <section className="bg-white pb-8">
+        <div className="section-shell">
+          <div className="relative min-h-[260px] overflow-hidden rounded-lg bg-[var(--soft)] md:min-h-[360px] lg:min-h-[430px]">
+            <Image
+              src={collectionImage}
+              alt="Automatic ironing machine collection banner"
+              fill
+              sizes="100vw"
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-black/20" />
+          </div>
         </div>
       </section>
 
@@ -49,7 +73,7 @@ export default async function ProductsPage() {
           {products.length ? (
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {products.map((product) => (
-                <ProductCard product={product} showExcerpt key={product.id} />
+                <ProductCard product={product} key={product.id} />
               ))}
             </div>
           ) : (
@@ -64,7 +88,7 @@ export default async function ProductsPage() {
         <div className="section-shell flex flex-col justify-between gap-5 md:flex-row md:items-center">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">Need help?</p>
-            <h2 className="mt-3 text-3xl font-semibold">Ask us before choosing a model</h2>
+            <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Ask us before choosing a model</h2>
           </div>
           <Link href="/contact-us" className="focus-ring inline-flex h-12 items-center justify-center gap-2 rounded bg-[var(--accent)] px-6 text-sm font-semibold text-white hover:bg-[var(--accent-strong)]">
             Contact us <ArrowRight size={18} />

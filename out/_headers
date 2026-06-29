@@ -1,4 +1,7 @@
-# https://developers.cloudflare.com/workers/static-assets/headers
-# https://opennext.js.org/cloudflare/caching#static-assets-caching
+# 静态资源长期缓存规则（原有保留）
 /_next/static/*
   Cache-Control: public,max-age=31536000,immutable
+
+# 全站页面禁止搜索引擎收录，避免临时站和新站重复内容
+/*
+  X-Robots-Tag: noindex, nofollow, noarchive

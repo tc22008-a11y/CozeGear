@@ -43,7 +43,7 @@ export function ProductGallery({ images, fallbackAlt }: ProductGalleryProps) {
       {visibleImages.map((_, index) => (
         <input
           type="radio"
-          className="sr-only"
+          className="hidden"
           id={`${galleryId}-image-${index}`}
           name={`${galleryId}-product-gallery`}
           defaultChecked={index === 0}
@@ -90,7 +90,7 @@ export function ProductGallery({ images, fallbackAlt }: ProductGalleryProps) {
         ) : null}
       </div>
 
-      <div className="product-gallery-main relative order-1 aspect-[4/5] overflow-hidden rounded bg-[var(--soft)] lg:order-2 lg:max-h-[860px]">
+      <div className="product-gallery-main relative order-1 aspect-[4/5] overflow-hidden rounded bg-[var(--soft)] lg:order-2 lg:max-h-[1060px]">
         {visibleImages.length ? (
           visibleImages.map((image, index) => {
             const previousIndex = index === 0 ? visibleImages.length - 1 : index - 1;

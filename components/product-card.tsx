@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
-import { getProductAlt, getProductGallery, getProductRating, stripHtml, type Product } from "@/lib/wordpress";
+import { getProductAlt, getProductGallery, getProductRating, type Product } from "@/lib/wordpress";
 
-export function ProductCard({ product, showExcerpt = false }: { product: Product; showExcerpt?: boolean }) {
+export function ProductCard({ product }: { product: Product }) {
   const gallery = getProductGallery(product);
   const image = gallery[0];
   const hoverImage = gallery[1];
@@ -41,9 +41,6 @@ export function ProductCard({ product, showExcerpt = false }: { product: Product
             {product.name}
           </Link>
         </h3>
-        {showExcerpt && product.shortDescription ? (
-          <p className="mt-3 line-clamp-3 text-sm leading-6 text-[var(--muted)]">{stripHtml(product.shortDescription)}</p>
-        ) : null}
         <div className="mt-3 flex items-center gap-2 text-sm text-[var(--muted)]">
           <div className="flex text-[var(--accent)]" aria-label={`${rating} out of 5 stars`}>
             {Array.from({ length: 5 }).map((_, index) => (

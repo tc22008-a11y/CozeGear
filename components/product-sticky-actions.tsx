@@ -28,16 +28,16 @@ export function ProductStickyActions({ buyUrl }: { buyUrl: string }) {
 
   return (
     <div
-      className={`fixed bottom-5 left-1/2 z-50 flex w-[min(720px,calc(100%-32px))] -translate-x-1/2 gap-3 rounded border border-[var(--line)] bg-white p-3 shadow-lg transition duration-200 ${
+      className={`fixed bottom-5 left-1/2 z-50 inline-flex w-auto max-w-[calc(100%-32px)] -translate-x-1/2 gap-2 rounded-full border border-[var(--line)] bg-white p-2 shadow-lg transition duration-200 ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0"
       }`}
     >
-      <Link href={buyUrl} className="focus-ring inline-flex h-11 flex-1 items-center justify-center gap-2 rounded bg-[var(--accent)] px-5 text-sm font-semibold text-white hover:bg-[var(--accent-strong)]">
+      <Link href={buyUrl} className="focus-ring inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 text-sm font-semibold text-white hover:bg-[var(--accent-strong)]">
         <ShoppingBag size={18} />
         Buy now
       </Link>
       <button
-        className="focus-ring grid h-11 w-11 shrink-0 place-items-center rounded border border-[var(--line)] bg-white text-[var(--foreground)] hover:bg-[var(--soft)]"
+        className="focus-ring grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[var(--line)] bg-white text-[var(--foreground)] hover:bg-[var(--soft)]"
         type="button"
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         aria-label="Back to top"

@@ -36,6 +36,12 @@
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/*备份*.tsx",
+    "**/*第一版.tsx",
+    "**/*第二版.tsx",
+    "**/page-gpt做的页面.tsx",
+    "**/page121212.tsx",
+    "**/site-shell - *.tsx"
   ]
 }

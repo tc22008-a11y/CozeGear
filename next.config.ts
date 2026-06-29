@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
         hostname: "jianx144.sg-host.com",
         pathname: "/wp-content/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
     ],
   },
 };

@@ -1,5 +1,8 @@
+'use client'; // 新增客户端标识，必须放第一行
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation"; // 新增路由监听
+import { useState, useEffect } from "react"; // 新增状态、副作用
 import { Globe2, Menu, MessageCircle, ShoppingBag, X } from "lucide-react";
 
 export const navItems = [
@@ -28,6 +31,15 @@ export function AnnouncementBar() {
 }
 
 export function Header() {
+  // 新增菜单开关状态
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  // 路由切换自动关闭菜单
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-[rgba(251,251,248,0.92)] backdrop-blur">
       <div className="section-shell flex h-18 items-center justify-between gap-4">
@@ -49,21 +61,35 @@ export function Header() {
           <Link href="/products" className="focus-ring grid h-10 w-10 place-items-center rounded border border-[var(--line)] text-[var(--muted)]" aria-label="Products">
             <ShoppingBag size={19} />
           </Link>
-          <details className="group lg:hidden">
-            <summary className="focus-ring grid h-10 w-10 cursor-pointer list-none place-items-center rounded border border-[var(--line)] text-[var(--muted)] [&::-webkit-details-marker]:hidden" aria-label="Menu">
-              <Menu className="group-open:hidden" size={20} />
-              <X className="hidden group-open:block" size={20} />
-            </summary>
-            <div id="mobile-navigation" className="fixed left-0 right-0 top-[104px] z-50 border-t border-[var(--line)] bg-white shadow-lg">
-              <nav className="section-shell grid py-3 text-sm font-semibold text-[var(--muted)]">
-                {navItems.map((item) => (
-                  <Link className="focus-ring border-b border-[var(--line)] py-4 last:border-b-0 hover:text-[var(--foreground)]" href={item.href} key={item.label}>
-                    {item.label}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-          </details>
+
+          {/* 替换原来的details，改用受控按钮+状态控制弹窗 */}
+          <div className="lg:hidden">
+            <button
+              className="focus-ring grid h-10 w-10 cursor-pointer list-none place-items-center rounded border border-[var(--line)] text-[var(--muted)]"
+              aria-label="Menu"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+            {/* 菜单弹窗，仅打开时渲染 */}
+            {mobileMenuOpen && (
+              <div id="mobile-navigation" className="fixed left-0 right-0 top-[104px] z-50 border-t border-[var(--line)] bg-white shadow-lg">
+                <nav className="section-shell grid py-3 text-sm font-semibold text-[var(--muted)]">
+                  {navItems.map((item) => (
+                    <Link
+                      className="focus-ring border-b border-[var(--line)] py-4 last:border-b-0 hover:text-[var(--foreground)]"
+                      href={item.href}
+                      key={item.label}
+                      // 点击导航链接强制关闭菜单
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </nav>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>

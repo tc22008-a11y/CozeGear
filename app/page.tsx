@@ -12,19 +12,19 @@ import {
   TimerReset,
   Truck,
 } from "lucide-react";
-import { getHomeProducts, getProductImage, getProductRating, stripHtml, type Product } from "@/lib/wordpress";
+import { getHomeProducts, getPosts, getProductImage, getProductRating, stripHtml, type Product, type WordPressPost } from "@/lib/wordpress";
 import { BackToTopButton } from "@/components/back-to-top-button";
 import { ProductCard } from "@/components/product-card";
 import { SiteShell } from "@/components/site-shell";
 
 const heroImage =
-  "http://jianx144.sg-host.com/wp-content/uploads/2026/05/O1CN01IOjP7C2EukRvuUpAi_2220536698805-0-cib.jpg";
+  "https://jianx144.sg-host.com/wp-content/uploads/2026/05/O1CN01IOjP7C2EukRvuUpAi_2220536698805-0-cib.jpg";
 
 const featureImage =
-  "http://jianx144.sg-host.com/wp-content/uploads/2026/05/O1CN019iG4ST2EukSXi2DEm_2220536698805-0-cib.jpg";
+  "https://jianx144.sg-host.com/wp-content/uploads/2026/05/O1CN019iG4ST2EukSXi2DEm_2220536698805-0-cib.jpg";
 
 const detailImage =
-  "http://jianx144.sg-host.com/wp-content/uploads/2026/05/O1CN01epGUet2EukTRyQVpy_2220536698805-0-cib.jpg";
+  "https://jianx144.sg-host.com/wp-content/uploads/2026/05/O1CN01epGUet2EukTRyQVpy_2220536698805-0-cib.jpg";
 
 const benefits = [
   { icon: TimerReset, title: "Less time ironing", text: "Designed to simplify daily clothing care at home." },
@@ -74,6 +74,7 @@ const faqs = [
 
 export default async function Home() {
   const products = await getHomeProducts();
+  const posts = await getPosts(3);
 
   const productSchema = products.map((product) => ({
     "@type": "Product",
@@ -140,7 +141,7 @@ export default async function Home() {
       <MediaSection />
       <Reviews products={products} />
       <FAQ />
-      <BlogPreview />
+      <BlogPreview posts={posts} />
       <BackToTopButton />
     </SiteShell>
   );
@@ -148,30 +149,64 @@ export default async function Home() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden bg-white">
-      <div className="section-shell grid min-h-[680px] items-center gap-10 py-12 lg:grid-cols-[0.92fr_1.08fr] lg:py-16">
-        <div className="max-w-xl">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">Automatic garment care</p>
-          <h1 className="text-5xl font-semibold leading-[1.03] text-[var(--foreground)] sm:text-6xl lg:text-7xl">
-            Automatic Ironing Machines for Effortless Garment Care
-          </h1>
-          <p className="mt-6 text-lg leading-8 text-[var(--muted)]">
-            CozeGear helps reduce everyday ironing work with smart garment care products built for simple use at home.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/products" className="focus-ring inline-flex h-12 items-center gap-2 rounded bg-[var(--accent)] px-6 text-sm font-semibold text-white hover:bg-[var(--accent-strong)]">
-              Shop Now <ArrowRight size={18} />
-            </Link>
-            <Link href="#faq" className="focus-ring inline-flex h-12 items-center gap-2 rounded border border-[var(--line)] px-6 text-sm font-semibold hover:bg-[var(--soft)]">
-              View FAQ <ChevronDown size={18} />
-            </Link>
-          </div>
-        </div>
-        <div className="relative min-h-[420px] overflow-hidden rounded bg-[var(--soft)] lg:min-h-[560px]">
-          <Image src={heroImage} alt="Automatic ironing machine for home garment care" fill priority sizes="(min-width: 1024px) 55vw, 100vw" className="object-cover" />
-        </div>
+
+<section className="relative mx-4 my-6 overflow-hidden rounded-lg md:mx-8 lg:mx-auto lg:my-8 lg:max-w-[var(--container-max-width)]">
+  {/* 背景视频/图片容器 */}
+  <div className="relative h-[520px] w-full sm:h-[560px] lg:h-[640px]">
+    {/* ========== 这里替换你的视频/图片 ========== */}
+    {/* 方案A：MP4产品演示视频（推荐，自动静音循环播放） */}
+    <video
+      src="https://jianx144.sg-host.com/wp-content/uploads/2026/06/6-2.mp4"
+      autoPlay
+      muted
+      loop
+      playsInline
+      className="absolute inset-0 w-full h-full object-cover"
+      poster="https://jianx144.sg-host.com/wp-content/uploads/2026/05/export_1-3-2.jpg"
+    />
+
+    {/* 方案B：只用静态图片，注释上面video，启用下面Image
+    <Image
+      src="你的产品大图链接"
+      alt="Automatic ironing steamer home scene"
+      fill
+      sizes="100vw"
+      className="object-cover"
+    />
+    */}
+
+    {/* 深色半透明遮罩，让白色文字可读 */}
+    <div className="absolute inset-0 bg-black/35"></div>
+  </div>
+
+  {/* 居中文字覆盖层 */}
+  <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 md:px-12">
+    <h1 className="text-4xl font-semibold leading-tight text-white md:text-5xl lg:text-6xl">
+      Get your time back
+    </h1>
+    <p className="mt-4 max-w-2xl text-base leading-7 text-white/90 md:text-lg">
+      We'll take care of the tasks you've been putting off so you can get your time back
+    </p>
+
+    {/* Shop now 白色圆角按钮 */}
+    <Link
+      href="/products"
+      className="focus-ring mt-8 inline-flex h-12 items-center justify-center rounded-full bg-white px-8 text-sm font-semibold text-[var(--foreground)] transition-colors hover:bg-[var(--soft)] md:h-14 md:px-10 md:text-base"
+    >
+      Shop now
+    </Link>
+
+    {/* 五星评分小字 */}
+    <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-sm text-white">
+      <div className="flex text-green-500">
+        {[1,2,3,4,5].map(i => (
+          <Star key={i} size={16} fill="currentColor" />
+        ))}
       </div>
-    </section>
+      <span>TrustScore 4.7 | +500 reviews</span>
+    </div>
+  </div>
+</section>
   );
 }
 
@@ -197,8 +232,8 @@ function Products({ products }: { products: Awaited<ReturnType<typeof getHomePro
       <div className="section-shell">
         <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">Shop from WordPress</p>
-            <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Featured automatic ironing products</h2>
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">Automatic Ironing Products</p>
+            {/* <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Featured automatic ironing products</h2> */}
           </div>
           <Link href="/products" className="focus-ring inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent)]">
             View all products <ArrowRight size={17} />
@@ -227,7 +262,7 @@ function WhyUs() {
         </div>
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">Why CozeGear</p>
-          <h2 className="mt-3 text-3xl font-semibold leading-tight md:text-5xl">A cleaner way to think about everyday ironing</h2>
+          <h2 className="mt-3 text-3xl font-semibold leading-tight md:text-4xl">A cleaner way to think about everyday ironing</h2>
           <p className="mt-5 text-lg leading-8 text-[var(--muted)]">
             The first version of this storefront is built around clarity: real WooCommerce products, clear product benefits and a fast frontend designed for future search growth.
           </p>
@@ -249,15 +284,15 @@ function HowItWorks() {
   return (
     <section className="bg-[var(--accent-strong)] py-18 text-white">
       <div className="section-shell">
-        <div className="max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#b9d5ca]">How it works</p>
-          <h2 className="mt-3 text-3xl font-semibold md:text-5xl">Simple garment care in three steps</h2>
-        </div>
+<div className="max-w-none">
+  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#b9d5ca]">How it works</p>
+  <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Simple garment care in 3 steps</h2>
+</div>
         <div className="mt-10 grid gap-4 md:grid-cols-3">
           {steps.map((step, index) => (
             <div className="min-h-48 border border-white/15 bg-white/5 p-6" key={step}>
               <span className="text-sm font-semibold text-[#b9d5ca]">0{index + 1}</span>
-              <h3 className="mt-5 text-2xl font-semibold leading-tight">{step}</h3>
+              <h3 className="mt-5 text-xl font-semibold leading-tight">{step}</h3>
             </div>
           ))}
         </div>
@@ -272,7 +307,7 @@ function FeatureDetails() {
       <div className="section-shell grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">Product highlights</p>
-          <h2 className="mt-3 text-3xl font-semibold leading-tight md:text-5xl">Made for people who want faster clothing care</h2>
+          <h2 className="mt-3 text-3xl font-semibold leading-tight md:text-4xl">Made for people who want faster clothing care</h2>
           <p className="mt-5 text-lg leading-8 text-[var(--muted)]">
             Use this section to explain the machine, ideal garments, care modes and product details. It is built to support SEO-friendly copy without making the homepage feel crowded.
           </p>
@@ -295,7 +330,7 @@ function MediaSection() {
             <button className="focus-ring mb-5 grid h-16 w-16 place-items-center rounded-full bg-white text-[var(--accent)]" aria-label="Play product video">
               <Play size={26} fill="currentColor" />
             </button>
-            <h2 className="max-w-2xl text-3xl font-semibold md:text-5xl">Product video ready</h2>
+            <h2 className="max-w-2xl text-3xl font-semibold md:text-4xl">Product video ready</h2>
             <p className="mt-4 max-w-xl text-white/85">This image area can become a video module when your product video is ready.</p>
           </div>
         </div>
@@ -326,7 +361,7 @@ function Reviews({ products }: { products: Product[] }) {
         <div className="mb-8 flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <div className="max-w-2xl">
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">Customer reviews</p>
-            <h2 className="mt-3 text-3xl font-semibold leading-tight md:text-5xl">What WordPress customers say</h2>
+            <h2 className="mt-3 text-3xl font-semibold leading-tight md:text-4xl">What WordPress customers say</h2>
           </div>
           <div className="flex items-center gap-3 rounded border border-[var(--line)] bg-[var(--soft)] px-4 py-3">
             <div className="flex text-[var(--accent)]" aria-label={`${averageRating.toFixed(1)} out of 5 stars`}>
@@ -372,7 +407,7 @@ function FAQ() {
       <div className="section-shell grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">FAQ</p>
-          <h2 className="mt-3 text-3xl font-semibold md:text-5xl">Automatic ironing machine questions</h2>
+          <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Automatic ironing machine questions</h2>
         </div>
         <div className="divide-y divide-[var(--line)] border-y border-[var(--line)]">
           {faqs.map((faq) => (
@@ -390,7 +425,7 @@ function FAQ() {
   );
 }
 
-function BlogPreview() {
+function BlogPreview({ posts }: { posts: WordPressPost[] }) {
   return (
     <section className="py-18">
       <div className="section-shell">
@@ -403,14 +438,41 @@ function BlogPreview() {
             Read the blog <ArrowRight size={17} />
           </Link>
         </div>
-        <div className="grid gap-5 md:grid-cols-3">
-          {["Automatic ironing machine vs garment steamer", "How to care for everyday shirts at home", "What to know before buying an ironing machine"].map((title) => (
-            <article className="min-h-44 rounded border border-[var(--line)] bg-white p-5" key={title}>
-              <h3 className="text-xl font-semibold leading-tight">{title}</h3>
-              <p className="mt-4 text-sm leading-6 text-[var(--muted)]">Future SEO article placeholder</p>
-            </article>
-          ))}
-        </div>
+        {posts.length ? (
+          <div className="grid gap-5 md:grid-cols-3">
+            {posts.map((post) => {
+              const image = post.featuredImage?.node;
+
+              return (
+                <article className="overflow-hidden rounded border border-[var(--line)] bg-white" key={post.id}>
+                  <Link href={`/blog/${post.slug}`} className="relative block aspect-[4/3] bg-[var(--soft)]">
+                    {image ? (
+                      <Image src={image.sourceUrl} alt={image.altText || post.title} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
+                    ) : (
+                      <div className="grid h-full place-items-center text-sm text-[var(--muted)]">WordPress article</div>
+                    )}
+                  </Link>
+                  <div className="p-5">
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">
+                      {post.date ? new Date(post.date).toLocaleDateString("en-US") : "WordPress article"}
+                    </p>
+                    <h3 className="mt-3 text-xl font-semibold leading-tight">
+                      <Link href={`/blog/${post.slug}`} className="hover:text-[var(--accent)]">{post.title}</Link>
+                    </h3>
+                    <p className="mt-4 line-clamp-3 text-sm leading-6 text-[var(--muted)]">{stripHtml(post.excerpt)}</p>
+                    <Link href={`/blog/${post.slug}`} className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent)]">
+                      Read article <ArrowRight size={16} />
+                    </Link>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="rounded border border-[var(--line)] bg-white p-8 text-[var(--muted)]">
+            WordPress posts could not be loaded.
+          </div>
+        )}
       </div>
     </section>
   );
